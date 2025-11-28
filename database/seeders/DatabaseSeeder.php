@@ -23,5 +23,9 @@ class DatabaseSeeder extends Seeder
 
         // Crear 20 libros aleatorios
         Book::factory(20)->create();
+
+        $user->is_admin = true;
+        $user->save();
+
     }
 }

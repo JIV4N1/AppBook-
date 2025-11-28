@@ -27,7 +27,12 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/catalog') }}">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/catalog') }}">Catálogo</a></li>}
+                    @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('profile') }}">Mi Perfil</a>
+                    </li>
+                    @endauth
                     <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Iniciar sesión</a></li>
                 </ul>
             </div>

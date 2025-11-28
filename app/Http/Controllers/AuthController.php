@@ -35,7 +35,11 @@ class AuthController extends Controller
 
         Session::put('user', $user);
 
-        return redirect('/admin')->with('success', 'Registro exitoso. Bienvenido, ' . $user->name);//variable temporal
+        if ($user->is_admin) {
+            return redirect('/admin')->with('success', 'Bienvenido Administrador');
+        }
+
+        return redirect('/profile')->with('success', 'Registro exitoso. Bienvenido ' . $user->name);
     }
 
     // Mostrar formulario de login
@@ -59,8 +63,11 @@ class AuthController extends Controller
         }
 
         Session::put('user', $user);
+        if ($user->is_admin) {
+            return redirect('/admin')->with('success', 'Bienvenido Administrador');
+        }
 
-        return redirect('/admin')->with('success', 'Bienvenido ' . $user->name);
+        return redirect('/profile')->with('success', 'Bienvenido ' . $user->name);
     }   
 
     // Cerrar sesión

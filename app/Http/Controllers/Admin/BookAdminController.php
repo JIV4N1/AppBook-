@@ -13,7 +13,7 @@ class BookAdminController extends Controller
     // Mostrar todos los libros
     public function index()
     {
-        $books = Book::all();
+        $books = Book::paginate(10);
         return view('admin.books.index', compact('books'));
     }
 

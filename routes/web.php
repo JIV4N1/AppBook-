@@ -4,11 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\BookAdminController;
+use App\Http\Controllers\ProfileController;
 
-// Página de inicio
-Route::get('/', function () {
-    return view('home');
-});
+// Página principal
+Route::get('/', [BookController::class, 'index'])->name('home');
 
 // Catálogo de todos los libros
 Route::get('/catalog', [BookController::class, 'catalog'])->name('catalog');
@@ -17,7 +16,7 @@ Route::get('/catalog', [BookController::class, 'catalog'])->name('catalog');
 Route::get('/book/{id}', [BookController::class, 'show'])->name('book.show');
 
 // Registro
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');//visual
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
 // Login
@@ -27,29 +26,20 @@ Route::post('/login', [AuthController::class, 'login']);
 // Logout
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Ruta protegida (admin)
-Route::middleware('auth.session')->group(function () { //una clase que se ejecuta antes de entrar a la ruta
-    Route::get('/admin', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+// Perfil solo para usuarios autenticados
+Route::middleware('auth.session')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'index'])
+        ->name('profile');
+
+    // Panel administrativo (solo si el usuario ES admin)
+    Route::middleware('auth.session', 'admin')->group(function() {
+        Route::get('/admin', function () {
+            return view('admin.dashboard');
+        })->name('admin.dashboard');
+
+        // CRUD ADMIN
+        Route::resource('/admin/books', BookAdminController::class);
+    });
+
 });
-
-//Panel administrativo protegido con sesión
-Route::middleware('auth.session')->group(function(){
-
-    Route::get('/admin', function(){
-        return view('admin.dashboard');
-    }) -> name('admin.dashboard');
-
-    //CRUD de libros del administrador
-    Route::resource('/admin/books', BookAdminController::class);
-    
-});
-
-// Página principal con libros destacados
-Route::get('/', [BookController::class, 'index'])->name('home');
-
-
-
-
-
