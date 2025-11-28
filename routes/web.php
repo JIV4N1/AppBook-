@@ -5,6 +5,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\BookAdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 
 // Página principal
 Route::get('/', [BookController::class, 'index'])->name('home');
@@ -13,7 +14,10 @@ Route::get('/', [BookController::class, 'index'])->name('home');
 Route::get('/catalog', [BookController::class, 'catalog'])->name('catalog');
 
 // Vista individual del libro
-Route::get('/book/{id}', [BookController::class, 'show'])->name('book.show');
+Route::get('/book/{id}', [BookController::class, 'show'])
+    ->name('book.show')
+    ->middleware('auth.session');
+
 
 // Registro
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
@@ -43,3 +47,6 @@ Route::middleware('auth.session')->group(function () {
     });
 
 });
+
+//Ruta para guardar reseñas
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');

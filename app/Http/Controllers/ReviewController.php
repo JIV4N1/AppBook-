@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Review;
+
+class ReviewController extends Controller
+{
+    public function store(Request $request)
+    {
+        $request->validate([
+            'book_id' => 'required|exists:books,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string'
+        ]);
+
+        Review::create([
+            'user_id' => auth()->id(),
+            'book_id' => $request->book_id,
+            'rating' => $request->rating,
+            'comment' => $request->comment
+        ]);
+
+        return back()->with('success', 'Reseña agregada correctamente');
+    }
+}
