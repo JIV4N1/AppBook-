@@ -19,25 +19,73 @@
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">AppBook</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/catalog') }}">Catálogo</a></li>}
-                    @auth
+    <div class="container">
+        
+        <a class="navbar-brand" href="{{ route('home') }}">AppBook</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <!-- Menú izquierdo -->
+            <ul class="navbar-nav me-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home') }}">Inicio</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('catalog') }}">Catálogo</a>
+                </li>
+
+                @if(session()->has('user'))
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('profile') }}">Mi Perfil</a>
                     </li>
-                    @endauth
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Iniciar sesión</a></li>
-                </ul>
-            </div>
+                @endif
+
+                @if(session()->has('user') && session('user')->is_admin)
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="{{ route('admin.dashboard') }}">
+                                Administrador
+                            </a>
+                        </li>
+                @endif
+
+            </ul>
+
+            <!-- Menú derecho -->
+            <ul class="navbar-nav ms-auto">
+
+                @if(!Session::has('user'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
+                    </li>
+                @endif
+
+                @if(Session::has('user'))
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="btn btn-link nav-link">Cerrar sesión</button>
+                        </form>
+                    </li>
+                @endif
+
+            </ul>
+
         </div>
-    </nav>
+
+    </div>
+</nav>
+
+
 
     <!-- Contenido dinámico -->
     <main class="container py-4">

@@ -10,7 +10,8 @@ class AuthSession
     public function handle($request, Closure $next)
     {
         if (!Session::has('user')) {
-            return redirect('/login')->with('error', 'Debes iniciar sesión.');
+            return redirect()->route('login')
+                ->with('error', 'Debes iniciar sesión para acceder a esta página.');
         }
 
         return $next($request);
