@@ -74,6 +74,8 @@ class AuthController extends Controller
     public function logout()
     {
         Session::forget('user');
+        Session::flush();
+        
         return redirect('/')->with('success', 'Sesión cerrada correctamente.');
     }
 
