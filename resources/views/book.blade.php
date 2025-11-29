@@ -25,6 +25,24 @@
     <p class="mt-3">{{ $book->description ?? 'Sin descripción disponible.' }}</p>
 
     <p class="fw-bold text-success fs-4">Precio: ${{ number_format($book->price, 2) }}</p>
+      @if(session('user'))
+          <form action="{{ route('favorites.toggle') }}" method="POST" class="mb-3">
+              @csrf
+              <input type="hidden" name="book_id" value="{{ $book->id }}">
+              @php
+                  $isFavorite = \App\Models\Favorite::where('user_id', session('user')->id)
+                                                  ->where('book_id', $book->id)
+                                                  ->exists();
+              @endphp
+              <button type="submit" class="btn {{ $isFavorite ? 'btn-danger' : 'btn-outline-danger' }}">
+                  @if($isFavorite)
+                      ❌ Quitar de Favoritos
+                  @else
+                      ❤️ Agregar a Favoritos
+                  @endif
+              </button>
+          </form>
+      @endif
 
     <a href="{{ route('catalog') }}" class="btn btn-secondary mt-3">Volver al catálogo</a>
 

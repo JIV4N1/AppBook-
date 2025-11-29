@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\BookAdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\FavoriteController;
 
 // Página principal
 Route::get('/', [BookController::class, 'index'])->name('home');
@@ -50,3 +51,7 @@ Route::middleware('auth.session')->group(function () {
 
 //Ruta para guardar reseñas
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+
+// Favoritos
+Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite'])->name('favorites.toggle');
+Route::get('/my-favorites', [FavoriteController::class, 'myFavorites'])->name('my.favorites');

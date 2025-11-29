@@ -46,6 +46,12 @@
                     </li>
                 @endif
 
+                @if(session()->has('user'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('my.favorites') }}">Mis Favoritos</a>
+                    </li>
+                @endif
+
                 @if(session()->has('user') && session('user')->is_admin)
                     <li class="nav-item">
                         <a class="nav-link text-warning" href="{{ route('admin.dashboard') }}">
