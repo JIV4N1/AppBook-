@@ -51,6 +51,8 @@ Route::middleware('auth.session')->group(function () {
 
 //Ruta para guardar reseñas
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+// Ruta para ver mis reseñas
+Route::get('/my-reviews', [ReviewController::class, 'myReviews'])->name('reviews.my');
 
 // Favoritos
 Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite'])->name('favorites.toggle');

@@ -41,4 +41,22 @@ public function store(Request $request)
 
     return back()->with('success', 'Reseña agregada correctamente');
 }
+
+public function myReviews()
+    {
+        // 1. Verificar sesión
+        $user = Session::get('user');
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión para ver tus reseñas.');
+        }
+
+        // 2. Obtener reseñas del usuario con información del libro
+        $reviews = Review::with('book') // Cargar relación con libro
+                        ->where('user_id', $user->id)
+                        ->latest()
+                        ->get();
+
+        // 3. Pasar a la vista
+        return view('reviews.my-reviews', compact('reviews'));
+    }
 }

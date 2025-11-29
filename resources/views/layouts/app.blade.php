@@ -50,6 +50,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('my.favorites') }}">Mis Favoritos</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('reviews.my') }}">Mis Reseñas</a>
+                    </li>
                 @endif
 
                 @if(session()->has('user') && session('user')->is_admin)
