@@ -39,6 +39,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('catalog') }}">Catálogo</a>
                 </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('books.reviewed') }}">
+                        Libros Reseñados
+                    </a>
+                </li>
 
                 @if(session()->has('user'))
                     <li class="nav-item">

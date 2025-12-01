@@ -57,3 +57,6 @@ Route::get('/my-reviews', [ReviewController::class, 'myReviews'])->name('reviews
 // Favoritos
 Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite'])->name('favorites.toggle');
 Route::get('/my-favorites', [FavoriteController::class, 'myFavorites'])->name('my.favorites');
+
+// Ruta para ver libros con reseñas
+Route::get('/reviewed-books', [BookController::class, 'reviewedBooks'])->name('books.reviewed');

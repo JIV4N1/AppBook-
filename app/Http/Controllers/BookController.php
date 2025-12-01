@@ -34,4 +34,15 @@ class BookController extends Controller
         $book = Book::with('reviews.user')->findOrFail($id);
         return view('book', compact('book'));
     }
+
+    public function reviewedBooks()
+    {
+        $books = Book::whereHas('reviews') 
+                    ->with(['reviews.user']) 
+                    ->withCount('reviews') 
+                    ->orderBy('reviews_count', 'desc') 
+                    ->get();
+
+        return view('reviews.reviewed-books', compact('books'));
+    }
 }
